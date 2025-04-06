@@ -27,62 +27,65 @@ public class EmpleadoFijo extends Empleado {
         this.bonificacion = 0.0;
     }
 
-    // Getter y Setter para salarioBase
+//Getter y Setter para salarioBase
     public double getSalarioBase() {
         return salarioBase;
     }
 
     public void setSalarioBase(double salarioBase) {
+        if (salarioBase < 0) {
+            throw new IllegalArgumentException("El salario base no puede ser negativo.");
+        }
         this.salarioBase = salarioBase;
     }
 
-    
+    // Getter y Setter para beneficios
     public List<String> getBeneficios() {
         return new ArrayList<>(beneficios); // Copia defensiva
     }
 
     public void setBeneficios(List<String> beneficios) {
+        if (beneficios == null) {
+            throw new IllegalArgumentException("La lista de beneficios no puede ser nula.");
+        }
         this.beneficios = new ArrayList<>(beneficios); // Copia defensiva
     }
 
-    // Getter y Setter 
+    // Getter y Setter para bonificacion
     public double getBonificacion() {
         return bonificacion;
     }
 
     public void setBonificacion(double bonificacion) {
+        if (bonificacion < 0) {
+            throw new IllegalArgumentException("La bonificación no puede ser negativa.");
+        }
         this.bonificacion = bonificacion;
     }
-    
-       public double calcularSalario() { 
 
-        return salarioBase + calcularBonificacion();
-
-    } 
-
-  
-
-    public void agregarBeneficio(String beneficio) { 
-
-        beneficios.add(beneficio); 
-
-    } 
-
-  
-
-    public double calcularBono(double bonoAnual) { 
-
-        // Lógica para calcular bono 
-
-        return bonoAnual; 
-
-    } 
-
-    private double calcularBonificacion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    // Método para calcular el salario total
+    public double calcularSalario() {
+        return salarioBase + bonificacion;
     }
 
-  
- 
-    
+    // Método para agregar un beneficio
+    public void agregarBeneficio(String beneficio) {
+        if (beneficio == null || beneficio.isEmpty()) {
+            throw new IllegalArgumentException("El beneficio no puede ser nulo o vacío.");
+        }
+        beneficios.add(beneficio);
+    }
+
+    // Método para calcular el bono anual
+    public double calcularBono(double bonoAnual) {
+        if (bonoAnual < 0) {
+            throw new IllegalArgumentException("El bono anual no puede ser negativo.");
+        }
+        return bonoAnual;
+    }
+
+    // Método privado para calcular bonificación adicional (puede personalizarse según lógica de negocio)
+    private double calcularBonificacion() {
+        return bonificacion * 0.1; // Ejemplo: 10% de la bonificación como extra
+    }
 }
