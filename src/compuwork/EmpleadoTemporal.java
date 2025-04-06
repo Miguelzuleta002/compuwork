@@ -20,21 +20,30 @@ public class EmpleadoTemporal extends Empleado {
     public EmpleadoTemporal(int id, String nombre, String apellido, String email, Date fechaContratacion, 
                             double tarifaHora, Date fechaFinContrato, int horasTrabajadas) {
         super(id, nombre, apellido, email, fechaContratacion);
-        this.tarifaHora = tarifaHora; 
+        if (tarifaHora < 0) {
+            throw new IllegalArgumentException("La tarifa por hora no puede ser negativa.");
+        }
+        if (fechaFinContrato.before(fechaContratacion)) {
+            throw new IllegalArgumentException("La fecha de fin de contrato no puede ser anterior a la fecha de contratación.");
+        }
+        if (horasTrabajadas < 0) {
+            throw new IllegalArgumentException("Las horas trabajadas no pueden ser negativas.");
+        }
+
+        this.tarifaHora = tarifaHora;
         this.fechaFinContrato = fechaFinContrato;
         this.horasTrabajadas = horasTrabajadas;
     }
 
-  
-   
-
-
-    //Get y set
+    // Get y Set
     public double getTarifaHora() {
         return tarifaHora;
     }
 
     public void setTarifaHora(double tarifaHora) {
+        if (tarifaHora < 0) {
+            throw new IllegalArgumentException("La tarifa por hora no puede ser negativa.");
+        }
         this.tarifaHora = tarifaHora;
     }
 
@@ -43,6 +52,9 @@ public class EmpleadoTemporal extends Empleado {
     }
 
     public void setFechaFinContrato(Date fechaFinContrato) {
+        if (fechaFinContrato.before(new Date())) {
+            throw new IllegalArgumentException("La nueva fecha de fin de contrato no puede ser anterior a hoy.");
+        }
         this.fechaFinContrato = fechaFinContrato;
     }
 
@@ -51,24 +63,32 @@ public class EmpleadoTemporal extends Empleado {
     }
 
     public void setHorasTrabajadas(int horasTrabajadas) {
+        if (horasTrabajadas < 0) {
+            throw new IllegalArgumentException("Las horas trabajadas no pueden ser negativas.");
+        }
         this.horasTrabajadas = horasTrabajadas;
     }
-//Metodos
-    public double calcularSalario() { 
-        return tarifaHora * horasTrabajadas; 
-    } 
 
-    public boolean extenderContrato(Date nuevaFecha) { 
+    // Métodos
+    public double calcularSalario() {
+        if (tarifaHora <= 0 || horasTrabajadas <= 0) {
+            throw new IllegalStateException("La tarifa por hora y las horas trabajadas deben ser mayores que cero.");
+        }
+        return tarifaHora * horasTrabajadas;
+    }
+
+    public boolean extenderContrato(Date nuevaFecha) {
         if (nuevaFecha.after(fechaFinContrato)) { // Verifica que la nueva fecha sea posterior
             this.fechaFinContrato = nuevaFecha;
             return true;
         }
-        return false;
-    } 
+        throw new IllegalArgumentException("La nueva fecha de fin de contrato debe ser posterior a la actual.");
+    }
 
-    public void registrarHoras(int horas) { 
-        if (horas > 0) {
-            this.horasTrabajadas += horas;
+    public void registrarHoras(int horas) {
+        if (horas <= 0) {
+            throw new IllegalArgumentException("Las horas registradas deben ser mayores que cero.");
         }
-    } 
+        this.horasTrabajadas += horas;
+    }
 }
