@@ -25,8 +25,8 @@ public class Departamento {
         this.presupuesto = presupuesto;
         this.empleados = new ArrayList<>();
     }
-
-    public int getId() {
+//Getters y Setters
+ public int getId() {
         return id;
     }
 
@@ -54,18 +54,24 @@ public class Departamento {
         return presupuesto;
     }
 
-    public void setPresupuesto(double presupuesto) {
+    public void setPresupuesto(double presupuesto) throws Exception {
+        if (presupuesto < 0) {
+            throw new Exception("El presupuesto no puede ser negativo.");
+        }
         this.presupuesto = presupuesto;
     }
 
+    //Crear Departamento
     public boolean crearDepartamento() {
         return true;
     }
-
+    
+    //Acualizar Departamento
     public boolean actualizarDepartamento() {
         return true;
     }
-
+    
+    //Eliminar Departamento
     public boolean eliminarDepartamento() {
         return true;
     }
@@ -74,10 +80,31 @@ public class Departamento {
         return empleados;
     }
 
-    public boolean asignarPresupuesto(double nuevoPresupuesto) {
-        this.presupuesto = nuevoPresupuesto;
-        return true;
+    public void agregarEmpleado(Empleado empleado) throws Exception {
+        if (empleado == null) {
+            throw new Exception("El empleado no puede ser nulo.");
+        }
+        if (empleados.contains(empleado)) {
+            throw new Exception("El empleado ya está asignado a este departamento.");
+        }
+        empleados.add(empleado);
     }
 
+    public void eliminarEmpleado(Empleado empleado) throws Exception {
+        if (empleado == null) {
+            throw new Exception("El empleado no puede ser nulo.");
+        }
+        if (!empleados.contains(empleado)) {
+            throw new Exception("El empleado no pertenece a este departamento.");
+        }
+        empleados.remove(empleado);
+    }
+
+    public void mostrarEmpleados() {
+        System.out.println("Empleados en el departamento " + nombre + ":");
+        for (Empleado emp : empleados) {
+            System.out.println("- " + emp.getNombre());
+        }
+    }
     
 }
