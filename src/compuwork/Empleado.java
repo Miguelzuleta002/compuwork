@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public class Empleado {
     
-         private int id; 
-     private String nombre;
+    private int id; 
+    private String nombre;
     private String apellido; 
     private String email; 
     private Date fechaContratacion;
@@ -66,7 +66,7 @@ public void getfechaContratacion(Date fechaContratacion) {
 
 
 
-    //Metodo crud 
+    //Métodos CRUD
     public boolean crearEmpleado() { return true; }
     public boolean actualizarEmpleado(Empleado empleado) { return true; }
     public boolean eliminarEmpleado(Empleado empleado) { return true; }
